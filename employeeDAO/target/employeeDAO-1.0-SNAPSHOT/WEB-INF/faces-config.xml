@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="3.0" xmlns="https://jakarta.ee/xml/ns/jakartaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+                                  https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd">
+<managed-bean>
+    <managed-bean-name>employeeController</managed-bean-name>
+    <managed-bean-class>com.employeedao.Controller.EmployeeController</managed-bean-class>
+    <managed-bean-scope>view</managed-bean-scope>
+</managed-bean>
+    <validator>
+        <validator-id>emailValidator</validator-id>
+        <validator-class>com.employeedao.Validators.EmailValidator</validator-class>
+    </validator>
+
+        <application>
+
+            <resource-bundle>
+                <base-name>i18n.messages</base-name>
+                <var>msg</var>
+            </resource-bundle>
+        </application>
+
+</faces-config>

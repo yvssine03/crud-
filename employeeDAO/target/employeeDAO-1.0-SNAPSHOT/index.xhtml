@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+
+    <title >Employee Management</title>
+</h:head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"></link>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<h:body>
+    <h:form>
+        <h:commandButton value="#{msg.changeLanguage}"  action="#{employeeController.ChangerLangue}" class="btn btn-primary me-5" />
+    </h:form>
+    <br></br>
+    <!-- Modal like form not like js but meh-->
+    <div class="container-fluid" style="height: 250px;">
+
+        <h:form class="container">
+
+
+            <h:panelGroup id="addEmployeeForm" rendered="#{employeeController.showAddForm}">
+                <div class="table table-striped">
+                    <div class="form-group">
+                        <h:outputLabel for="name" value="#{msg.name}" class="form-label" />
+                        <h:inputText id="name" value="#{employeeController.newEmployee.name}" required="true" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel for="department" value="#{msg.departement}" class="form-label" />
+                        <h:inputText id="department" value="#{employeeController.newEmployee.department}" required="true" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel for="mail" value="Mail:" class="form-label" />
+                        <h:inputText id="mail" value="#{employeeController.newEmployee.mail}" required="true" class="form-control">
+                            <f:validator validatorId="emailValidator" />
+                        </h:inputText>
+                        <h:message for="mail" />
+
+                    </div>
+
+                    <div class="form-group">
+                        <br></br>
+                        <h:commandButton value="#{msg.save}" action="#{employeeController.addEmployee(employeeController.newEmployee)}" class="btn btn-dark me-5" />
+                        <h:button value="#{msg.cancel}"  class="btn btn-dark"  />
+                    </div>
+                </div>
+            </h:panelGroup>
+        </h:form>
+
+
+        <h:form class="form-control">
+    <h1><h:outputText value="#{msg.title}" /></h1>
+
+    <h:dataTable value="#{employeeController.paginatedEmployees}" var="employee" border="1" class="table table-bordered">
+        <h:column>
+            <f:facet name="header">ID</f:facet>
+            #{employee.id}
+        </h:column>
+        <h:column>
+
+            <f:facet name="header"><h:outputText value="#{msg.name}" /></f:facet>
+            <h:inputText value="#{employee.name}" rendered="#{employee.editable}" styleClass="form-control" />
+            <h:outputText value="#{employee.name}" rendered="#{not employee.editable}" />
+
+
+        </h:column>
+        <h:column>
+
+            <f:facet name="header"><h:outputText value="#{msg.departement}" /></f:facet>
+            <h:inputText value="#{employee.department}" rendered="#{employee.editable}" styleClass="form-control" />
+            <h:outputText value="#{employee.department}" rendered="#{not employee.editable}" />
+        </h:column>
+        <h:column>
+            <f:facet name="header"><h:outputText value="#{msg.mail}" /></f:facet>
+            <h:inputText id ="mail2" value="#{employee.mail}" rendered="#{employee.editable}" styleClass="form-control">
+                <f:validator validatorId="emailValidator" />
+            </h:inputText>
+            <h:message for="mail2"/>
+            <h:outputText value="#{employee.mail}" rendered="#{not employee.editable}" />
+        </h:column>
+
+        <h:column>
+
+            <f:facet name="header">Actions</f:facet>
+            <h:commandButton value="#{msg.edit}" action="#{employeeController.editEmployee(employee)}" class="btn btn-secondary me-5" />
+
+            <h:commandButton value="#{msg.delete}" action="#{employeeController.deleteEmployee(employee)}" class="btn btn-danger"/>
+
+        </h:column>
+    </h:dataTable>
+            <br></br>
+
+            <!-- Pagination controls -->
+            <div class="bottom text-center">
+                <h:commandButton value="#{msg.first}" action="#{employeeController.firstPage}" class="btn btn-primary me-2"/>
+                <h:commandButton value="#{msg.previous}"  action="#{employeeController.previousPage}" disabled="#{employeeController.currentPage == 1}" class="btn btn-primary me-2"/>
+                <h:commandButton value="#{msg.next}"  action="#{employeeController.nextPage}" disabled="#{employeeController.currentPage == employeeController.totalPages}" class="btn btn-primary me-2"/>
+                <h:commandButton value="#{msg.last}"  action="#{employeeController.lastPage}" class="btn btn-primary me-2" />
+            </div>
+    <br></br>
+    <h:commandButton value="#{msg.saveChanges}" action="#{employeeController.saveChanges}" class="btn btn-primary me-5" />
+            <div class="form-group mb-3">
+                <br></br>
+                <h:commandButton value="#{msg.addEmployee}" action="#{employeeController.toggleAddEmployeeForm}" class="btn btn btn-primary"/>
+            </div>
+            <br></br>
+
+
+
+    <h:outputText value="#{employeeController.message}" />
+
+        </h:form>
+    </div>
+
+
+
+</h:body>
+
+</html>
+
